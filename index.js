@@ -1,18 +1,11 @@
 const express = require('express');
 const app = express();
-const videos = require('./data/videos.json');
-const videoDetails = require('./data/video-details.json');
+const PORT = 8080;
+const videosRoutes = require('./routes/videos');
+const videoDetailsRoutes = require('./routes/video-details');
 
-app.get('/videos', (req, res) => {
-	res.send(videos);
-});
+app.use('/videos', [videosRoutes, videoDetailsRoutes]);
 
-app.get('/video/:videoId', (req, res) => {
-	const videoId = req.params.videoId;
-	const videoDetail = videoDetails.find(video => video.id === videoId);
-	res.send(videoDetail);
-});
-
-app.listen(8080, () => {
+app.listen(PORT, () => {
 	console.log('Link Start!');
 });
