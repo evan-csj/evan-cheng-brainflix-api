@@ -4,7 +4,7 @@ const cors = require('cors');
 const PORT = 8080;
 
 const videosRoutes = require('./routes/videos');
-const videoDetailsRoutes = require('./routes/video-details');
+const videoDetailsRoutes = require('./routes/videoDetails');
 const commentsRoute = require('./routes/comments');
 
 app.use(express.json());
