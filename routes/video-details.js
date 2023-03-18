@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const videoDetails = require('../data/video-details.json');
-const errorMsg = {message: 'No video with that id exists',};
+const errorMsg = { message: 'No video with that id exists' };
 
 router.get('/:videoId', (req, res) => {
 	const videoId = req.params.videoId;
