@@ -3,9 +3,6 @@ const express = require('express');
 const lib = require('../lib');
 const router = express.Router();
 const videoDetailsFileName = 'video-details.json';
-const deleteMsgErr = {
-	message: 'ERROR: COMMENT NOT EXISTING',
-};
 
 router.post('/', (req, res) => {
 	const videoId = req.videoId;
@@ -40,7 +37,7 @@ router.delete('/:commentId', (req, res) => {
 	);
 
 	if (index === -1) {
-		return res.status(404).send(JSON.stringify(deleteMsgErr));
+		return res.status(404).send(JSON.stringify());
 	} else {
 		res.send(deleteComment);
 		videoDetailsChanged.comments.splice(index, 1);
