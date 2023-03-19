@@ -17,7 +17,12 @@ router.get('/:videoId', (req, res) => {
 router.use(
 	'/:videoId/comments',
 	(req, res, next) => {
-		req.videoId = req.params.videoId;
+		const videoId = req.params.videoId;
+		const index = videoDetails.findIndex(video => video.id === videoId);
+		if (index === -1) {
+			return res.status(404).send();
+		}
+		req.videoId = videoId;
 		next();
 	},
 	commentsRoute
