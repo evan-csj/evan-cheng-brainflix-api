@@ -13,7 +13,7 @@ const writeJSON = (fileName, file) => {
 		err => {
 			if (err) {
 				console.error(err);
-				return res.status(500).send('ERROR: WRITING FILE');
+				return res.status(500).send();
 			}
 		}
 	);

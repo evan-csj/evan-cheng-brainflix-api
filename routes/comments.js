@@ -6,10 +6,13 @@ const videoDetailsFileName = 'video-details.json';
 
 router.post('/', (req, res) => {
 	const videoId = req.videoId;
-	const newComment = req.body;
-	newComment.likes = 0;
-	newComment.timestamp = Date.now();
-	newComment.id = uuid();
+	const newComment = {
+		id: uuid(),
+		name: req.body.name,
+		comment: req.body.comment,
+		likes: 0,
+		timestamp: Date.now(),
+	};
 
 	const videoDetails = lib.readJSON(videoDetailsFileName);
 	const videoDetailsChanged = videoDetails.find(
