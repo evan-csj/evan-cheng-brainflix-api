@@ -3,9 +3,12 @@ const express = require('express');
 const lib = require('../lib');
 const router = express.Router();
 const videoDetailsFileName = 'video-details.json';
+const deleteMsgErr = {
+	message: 'ERROR: COMMENT NOT EXISTING',
+};
 
-router.post('/:videoId/comments', (req, res) => {
-	const videoId = req.params.videoId;
+router.post('/', (req, res) => {
+	const videoId = req.videoId;
 	const newComment = req.body;
 	newComment.likes = 0;
 	newComment.timestamp = Date.now();
@@ -23,8 +26,8 @@ router.post('/:videoId/comments', (req, res) => {
 	res.send(newComment);
 });
 
-router.delete('/:videoId/comments/:commentId', (req, res) => {
-	const videoId = req.params.videoId;
+router.delete('/:commentId', (req, res) => {
+	const videoId = req.videoId;
 	const commentId = req.params.commentId;
 	const deleteComment = req.body;
 	const videoDetails = lib.readJSON(videoDetailsFileName);
@@ -37,9 +40,7 @@ router.delete('/:videoId/comments/:commentId', (req, res) => {
 	);
 
 	if (index === -1) {
-		return res
-			.status(404)
-			.send(JSON.stringify({ message: 'ERROR: COMMENT NOT EXISTING' }));
+		return res.status(404).send(JSON.stringify(deleteMsgErr));
 	} else {
 		res.send(deleteComment);
 		videoDetailsChanged.comments.splice(index, 1);
