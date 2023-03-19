@@ -28,7 +28,7 @@ router.post('/:videoId/comments', (req, res) => {
 router.delete('/:videoId/comments/:commentId', (req, res) => {
 	const videoId = req.params.videoId;
 	const commentId = req.params.commentId;
-
+	const deleteComment = req.body;
 	const videoDetails = lib.readJSON(videoDetailsFileName);
 	const videoDetailsChanged = videoDetails.find(
 		video => video.id === videoId
@@ -40,16 +40,14 @@ router.delete('/:videoId/comments/:commentId', (req, res) => {
 
 	if (index === -1) {
 		return res
-			.status(500)
+			.status(404)
 			.send(JSON.stringify({ message: 'ERROR: COMMENT NOT EXISTING' }));
 	} else {
+		res.send(deleteComment);
 		videoDetailsChanged.comments.splice(index, 1);
 	}
 
 	lib.writeJSON(videoDetailsFileName, videoDetails);
-
-	const deleteComment = req.body;
-	res.send(deleteComment);
 });
 
 module.exports = router;
