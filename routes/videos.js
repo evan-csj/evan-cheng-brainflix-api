@@ -34,7 +34,7 @@ router.post('/', (req, res) => {
 	lib.writeJSON(videosFileName, videos);
 	lib.writeJSON(videoDetailsFileName, videoDetails);
 
-	res.send();
+	res.send(videos);
 });
 
 module.exports = router;
