@@ -2,7 +2,7 @@ const express = require('express');
 const { v4: uuid } = require('uuid');
 const router = express.Router();
 const lib = require('../lib');
-const videoJSON = require('../data/videos.json');
+const videosJSON = require('../data/videos.json');
 const videosFileName = 'videos.json';
 
 const getBriefList = videos => {
@@ -19,7 +19,7 @@ const getBriefList = videos => {
 };
 
 router.get('/', (_req, res) => {
-	const videoBrief = getBriefList(videoJSON);
+	const videoBrief = getBriefList(videosJSON);
 	res.send(videoBrief);
 });
 
