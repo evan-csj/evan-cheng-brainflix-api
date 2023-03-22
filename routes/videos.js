@@ -2,20 +2,30 @@ const express = require('express');
 const { v4: uuid } = require('uuid');
 const router = express.Router();
 const lib = require('../lib');
-const videos = require('../data/videos.json');
+const videosRoute = require('../data/videos.json');
 const videosFileName = 'videos.json';
-const videoDetailsFileName = 'video-details.json';
+
+const getBriefList = videos => {
+	const videoBrief = videos.map(element => {
+		return {
+			id: element.id,
+			title: element.title,
+			channel: element.channel,
+			image: element.image,
+		};
+	});
+
+	return videoBrief;
+};
 
 router.get('/', (_req, res) => {
-	res.send(videos);
+	const videoBrief = getBriefList(videosRoute);
+	res.send(videoBrief);
 });
 
 router.post('/', (req, res) => {
-	const newVideo = req.body;
-	const newId = uuid();
-	newVideo.id = newId;
-	const newVideoDetails = {
-		id: newId,
+	const newVideo = {
+		id: uuid(),
 		title: req.body.title,
 		channel: req.body.channel,
 		image: req.body.image,
@@ -28,13 +38,11 @@ router.post('/', (req, res) => {
 	};
 
 	const videos = lib.readJSON(videosFileName);
-	const videoDetails = lib.readJSON(videoDetailsFileName);
 	videos.push(newVideo);
-	videoDetails.push(newVideoDetails);
 	lib.writeJSON(videosFileName, videos);
-	lib.writeJSON(videoDetailsFileName, videoDetails);
 
-	res.send(videos);
+	const videoBrief = getBriefList(videos);
+	res.send(videoBrief);
 });
 
 module.exports = router;

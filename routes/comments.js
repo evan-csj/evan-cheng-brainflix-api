@@ -2,7 +2,7 @@ const { v4: uuid } = require('uuid');
 const express = require('express');
 const lib = require('../lib');
 const router = express.Router();
-const videoDetailsFileName = 'video-details.json';
+const videosFileName = 'videos.json';
 
 router.post('/', (req, res) => {
 	const videoId = req.videoId;
@@ -14,14 +14,12 @@ router.post('/', (req, res) => {
 		timestamp: Date.now(),
 	};
 
-	const videoDetails = lib.readJSON(videoDetailsFileName);
-	const videoDetailsChanged = videoDetails.find(
-		video => video.id === videoId
-	);
+	const videos = lib.readJSON(videosFileName);
+	const videoDetailsChanged = videos.find(video => video.id === videoId);
 
 	videoDetailsChanged.comments.push(newComment);
 
-	lib.writeJSON(videoDetailsFileName, videoDetails);
+	lib.writeJSON(videosFileName, videos);
 
 	res.send(newComment);
 });
@@ -30,10 +28,8 @@ router.delete('/:commentId', (req, res) => {
 	const videoId = req.videoId;
 	const commentId = req.params.commentId;
 	const deleteComment = req.body;
-	const videoDetails = lib.readJSON(videoDetailsFileName);
-	const videoDetailsChanged = videoDetails.find(
-		video => video.id === videoId
-	);
+	const videos = lib.readJSON(videosFileName);
+	const videoDetailsChanged = videos.find(video => video.id === videoId);
 
 	const index = videoDetailsChanged.comments.findIndex(
 		comment => comment.id === commentId
@@ -46,7 +42,7 @@ router.delete('/:commentId', (req, res) => {
 		videoDetailsChanged.comments.splice(index, 1);
 	}
 
-	lib.writeJSON(videoDetailsFileName, videoDetails);
+	lib.writeJSON(videosFileName, videos);
 });
 
 module.exports = router;
