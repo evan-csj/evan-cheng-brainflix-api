@@ -21,7 +21,7 @@ router.put('/:videoId/likes', (req, res) => {
 	const videoId = req.params.videoId;
 	const video = videos.find(video => video.id === videoId);
 	if (video !== undefined) {
-		const n = Number(video.likes.replace(',','')) + 1;
+		const n = Number(video.likes.replace(',', '')) + 1;
 		video.likes = n.toLocaleString();
 		lib.writeJSON(videosFileName, videos);
 		res.send(video);
@@ -34,7 +34,7 @@ router.use(
 	'/:videoId/comments',
 	(req, res, next) => {
 		const videoId = req.params.videoId;
-		const index = videos.findIndex(video => video.id === videoId);
+		const index = videosJSON.findIndex(video => video.id === videoId);
 		if (index === -1) {
 			return res.status(404).send();
 		}
