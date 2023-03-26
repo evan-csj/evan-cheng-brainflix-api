@@ -20,7 +20,7 @@ const getBriefList = videos => {
 
 router.get('/', (_req, res) => {
 	const videoBrief = getBriefList(videosJSON);
-	res.send(videoBrief);
+	res.send(JSON.stringify(videoBrief));
 });
 
 router.post('/', (req, res) => {
@@ -41,8 +41,13 @@ router.post('/', (req, res) => {
 	videos.push(newVideo);
 	lib.writeJSON(videosFileName, videos);
 
-	const videoBrief = getBriefList(videos);
-	res.send(videoBrief);
+	const newVideoBrief = {
+		id: newVideo.id,
+		title: newVideo.title,
+		channel: newVideo.channel,
+		image: newVideo.image,
+	};
+	res.send(JSON.stringify(newVideoBrief));
 });
 
 module.exports = router;
